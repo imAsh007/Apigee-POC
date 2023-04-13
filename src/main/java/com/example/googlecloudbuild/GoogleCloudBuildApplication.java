@@ -9,6 +9,7 @@ import com.google.cloud.devtools.cloudbuild.v1.CloudBuildSettings;
 import com.google.cloud.devtools.cloudbuild.v1.stub.CloudBuildStubSettings;
 import com.google.cloudbuild.v1.Build;
 import com.google.cloudbuild.v1.BuildTrigger;
+import com.google.cloudbuild.v1.CreateBuildRequest;
 import com.google.cloudbuild.v1.CreateBuildTriggerRequest;
 import com.google.cloudbuild.v1.LocationName;
 
@@ -24,7 +25,15 @@ public class GoogleCloudBuildApplication {
 			      Build build = Build.newBuilder().build();
 			      Build response = cloudBuildClient.createBuildAsync(projectId, build).get();
 			    }
-		
+		try (CloudBuildClient cloudBuildClient = CloudBuildClient.create()) {
+			      CreateBuildRequest request =
+			          CreateBuildRequest.newBuilder()
+			              .setParent(LocationName.of("[PROJECT]", "[LOCATION]").toString())
+			             .setProjectId("ashutosh-poc")
+			              .setBuild(Build.newBuilder().build())
+			              .build();
+			      Build response = cloudBuildClient.createBuildAsync(request).get();
+			    }
 		
 		
 		
